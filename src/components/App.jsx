@@ -15,6 +15,19 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const localStorageContacts = localStorage.getItem('contacts');
+    if (localStorageContacts) {
+      this.setState({ contacts: JSON.parse(localStorageContacts) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = data => {
     const newContact = {
       id: nanoid(),
